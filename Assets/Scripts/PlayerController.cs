@@ -3,8 +3,10 @@ using UnityEngine;
 /// <summary>Handles player controller class</summary>
 public class PlayerController : MonoBehaviour
 {
+    // Player ball variables
     public float speed = 500;
     private int score = 0;
+    public int health = 5;
     Rigidbody body;
 
     // Start is called before the first frame update
@@ -23,7 +25,7 @@ public class PlayerController : MonoBehaviour
         body.velocity = movement * speed * Time.deltaTime;
     }
 
-    /// <summary>Updates score value when player collides with coin, destroys coin</summary>
+    /// <summary>Updates variables value when player collides with objects in maze</summary>
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Pickup")
@@ -31,6 +33,14 @@ public class PlayerController : MonoBehaviour
             score++;
             Debug.Log($"Score: {score}");
             Destroy(other.gameObject);
+        }
+        if (other.tag == "Trap")
+        {
+            if (health > 0)
+            {
+                health--;
+            }
+            Debug.Log($"health: {health}");
         }
     }
 }
