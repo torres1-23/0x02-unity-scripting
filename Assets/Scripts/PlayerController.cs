@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>Handles player controller class</summary>
 public class PlayerController : MonoBehaviour
@@ -36,15 +37,32 @@ public class PlayerController : MonoBehaviour
         }
         if (other.tag == "Trap")
         {
-            if (health > 0)
-            {
-                health--;
-            }
+            health--;
             Debug.Log($"health: {health}");
         }
         if (other.tag == "Goal")
         {
-            Debug.Log("You win");
+            Debug.Log($"You win\nScore: {score}");
+            reload();
         }
+    }
+
+    /// <summary>If player runs out of heal, reload the scene</summary>
+    void Update()
+    {
+        if (health == 0)
+        {
+            Debug.Log("Game Over!");
+            reload();
+        }
+    }
+
+    /// <summary>Reloads the scene</summary>
+    void reload()
+    {
+        SceneManager.LoadScene("maze");
+        score = 0;
+        health = 5;
+        Debug.Log("Game Reloaded!");
     }
 }
